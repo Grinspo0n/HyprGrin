@@ -3,16 +3,25 @@
 ###########
 
 
-# Prompt style
+#############
+### STYLE ###
+#############
+
 NEWLINE=$'\n'
 PROMPT="%F{228}%~%f${NEWLINE}>"
 
-# Load zplug
+##################
+### LOAD ZPLUG ###
+##################
+
 if [ -e ~/.zplug/init.zsh ]; then
   source ~/.zplug/init.zsh
 fi
 
-# Plugins
+###############
+### PLUGINS ###
+###############
+
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-syntax-highlighting"
 zplug "popstas/zsh-command-time"
@@ -25,14 +34,23 @@ fi
 # Load plugins
 zplug load
 
-# bun completions
+#######################
+### BUN COMPLETIONS ###
+#######################
+
 [ -s "/home/alex/.bun/_bun" ] && source "/home/alex/.bun/_bun"
 
-# bun
+###############
+### BUN ENV ###
+###############
+
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-# Environment variables
+#############################
+### ENVIRONMENT VARIABLES ###
+#############################
+
 export XDG_CURRENT_DESKTOP=KDE
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export GTK_THEME="Breeze-Dark"
