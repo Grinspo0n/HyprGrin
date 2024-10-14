@@ -1,4 +1,10 @@
 // -*- mode: jsonc -*-
+
+  /////////////
+ // CONFIG ///
+/////////////
+
+
 {
     "include": "~/.config/waybar/modules",
     // "layer": "top",
@@ -32,3 +38,8 @@
         "power-profiles-daemon",
     ],
 }
+
+
+  ////////////////////
+ /// BY GRINSPOON ///
+////////////////////
