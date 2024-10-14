@@ -1,0 +1,68 @@
+* {
+    border: none;
+    font-size: 14px;
+    min-height: 18px;
+}
+
+window#waybar {
+  background: transparent;
+  margin: 8px;
+ }
+
+.modules-right {
+  padding-left: 7px;
+  border-radius: 15px 0 0 15px;
+  margin-top: 8px;
+  background: #000000;
+}
+
+.modules-center {
+  padding: 0 15px;
+  margin-top: 8px;
+  border-radius: 15px 15px 15px 15px;
+  background: #000000;
+}
+
+.modules-left {
+  padding-right: 5px;
+  border-radius: 0 15px 15px 0;
+  margin-top: 8px;
+  background: #000000;
+}
+
+#battery,
+#custom-clipboard,
+#custom-colorpicker,
+#custom-powerDraw,
+#pulseaudio,
+#network,
+#disk,
+#memory,
+#backlight,
+#cpu,
+#temperature,
+#custom-weather,
+#idle_inhibitor,
+#jack,
+#tray,
+#window,
+#workspaces,
+#pulseaudio
+#temperature.critical,
+#pulseaudio.muted{
+}
+#backlight{
+  padding-left: 2px;
+}
+#clock{
+  padding-right: 2px;
+}
+#power-profiles-daemon{
+  padding-right: 7px;
+  padding-left: 4px;
+  padding-bottom: 2px;
+}
+#window{
+  color: #5fd1fa;
+}
+
