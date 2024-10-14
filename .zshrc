@@ -2,6 +2,7 @@
 ### ZSH ###
 ###########
 
+
 # Prompt style
 NEWLINE=$'\n'
 PROMPT="%F{228}%~%f${NEWLINE}>"
@@ -35,6 +36,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 export XDG_CURRENT_DESKTOP=KDE
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export GTK_THEME="Breeze-Dark"
+
 
 ####################
 ### BY GRINSPOON ###
