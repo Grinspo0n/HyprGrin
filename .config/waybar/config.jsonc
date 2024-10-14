@@ -1,0 +1,34 @@
+// -*- mode: jsonc -*-
+{
+    "include": "~/.config/waybar/modules",
+    // "layer": "top",
+    // "position": "bottom",
+    // "margin-top":6,
+    // "margin-left":6,
+    // "margin-right":6,
+    "height": 24,
+    // "width": 1280
+    "spacing": 3,
+    "modules-left": [
+        "hyprland/workspaces",
+        "custom/seperator_bar",
+        "cpu",
+        "memory",
+        "custom/seperator_bar",
+        "clock",
+        "mpd",
+    ],
+    "modules-center": [
+        "hyprland/window",
+    ],
+    "modules-right": [
+        "backlight",
+        "custom/seperator_bar",
+        "network",
+        "custom/seperator_bar",
+        "pulseaudio",
+        "custom/seperator_bar",
+        "battery",
+        "power-profiles-daemon",
+    ],
+}
