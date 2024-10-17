@@ -119,6 +119,7 @@ AUR_APPS=(
     bluetui
     cava
     ferdium
+    hyprshot
     spotify
     spotify-tui
     tenki
