@@ -105,6 +105,11 @@ OFFICIAL_APPS=(
 
 sudo pacman -S --noconfirm "${OFFICIAL_APPS[@]}"
 
+if [ -d "/tmp/yay" ]; then
+    echo "Removing existing yay folder..."
+    rm -rf /tmp/yay
+fi
+
 echo "Installing yay..."
 git clone https://aur.archlinux.org/yay.git /tmp/yay
 cd /tmp/yay
