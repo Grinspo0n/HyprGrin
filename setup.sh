@@ -153,6 +153,9 @@ cp "$TEMP_DIR/.zshrc" ~/
 echo "Cleaning configs"
 rm -rf "$TEMP_DIR"
 
+#SDDM setup
+sudo systemctl enable sddm
+
 echo "Finally done ^_^"
 
 
