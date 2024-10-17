@@ -156,6 +156,8 @@ rm -rf "$TEMP_DIR"
 #SDDM setup
 sudo systemctl enable sddm
 
+chsh -s $(which zsh)
+
 echo "Finally done ^_^"
 
 
