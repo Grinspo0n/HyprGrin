@@ -102,48 +102,6 @@ OFFICIAL_APPS=(
 
 sudo pacman -S --noconfirm "${OFFICIAL_APPS[@]}"
 
-echo "Installing yay..."
-git clone https://aur.archlinux.org/yay.git /tmp/yay
-cd /tmp/yay
-makepkg -si --noconfirm
-cd -
-rm -rf /tmp/yay
-
-echo "Cleaning..."
-sudo pacman -Rns $(pacman -Qdtq) --noconfirm
-sudo pacman -Scc --noconfirm
-
-echo "AUR time"
-AUR_APPS=(
-    balena-etcher
-    bluetui
-    cava
-    ferdium
-    spotify
-    spotify-tui
-    tenki
-    winbox
-)
-
-yay -S --noconfirm "${AUR_APPS[@]}"
-
-echo "Cloning configs"
-git clone "$REPO_URL" "$TEMP_DIR"
-
-# Check if the clone was successful
-if [ $? -ne 0 ]; then
-    echo "Error: Failed to clone repository."
-    exit 1
-fi
-
-echo "Moving configs"
-cp -r "$TEMP_DIR/.config" ~/
-echo "Copying .zshrc file..."
-cp "$TEMP_DIR/.zshrc" ~/
-
-echo "Cleaning configs"
-rm -rf "$TEMP_DIR"
-
 echo "Finally done ^_^"
 
 
