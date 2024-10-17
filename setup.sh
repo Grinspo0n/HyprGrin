@@ -102,6 +102,9 @@ OFFICIAL_APPS=(
 
 sudo pacman -S --noconfirm "${OFFICIAL_APPS[@]}"
 
+echo "Cleaning configs"
+rm -rf "$TEMP_DIR"
+
 echo "Finally done ^_^"
 
 
