@@ -31,10 +31,13 @@ OFFICIAL_APPS=(
     fuzzel
     gping
     gst-plugin-pipewire
+    hyprcursor
     hyprland
+    hyprlang
     hyprlock
     hyprpaper
-    hyprshot
+    hyprutils
+    hyprwayland-scanner
     inetutils
     intel-media-driver
     iwd
