@@ -91,7 +91,6 @@ OFFICIAL_APPS=(
     xdg-utils
     xf86-video-amdgpu
     xf86-video-ati
-    xf86-video-nouvaeu
     xf86-video-vmware
     xorg-server
     xorg-xinit
