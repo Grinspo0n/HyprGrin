@@ -21,12 +21,15 @@ OFFICIAL_APPS=(
     brightnessctl
     btop
     chromium
+    cmake
     cmatrix
+    cpio
     discord
     dosfstools
     egl-wayland
     exfatprogs
     fastfetch
+    firefox
     freerdp
     fuzzel
     gping
@@ -49,6 +52,7 @@ OFFICIAL_APPS=(
     libva-intel-driver
     libva-mesa-driver
     man-db
+    meson
     micro
     nano
     nemo
