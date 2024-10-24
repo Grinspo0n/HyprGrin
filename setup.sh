@@ -131,6 +131,7 @@ AUR_APPS=(
     bluetui
     cava
     ferdium
+    google-earth-pro
     hyprshot
     spotify
     spotify-tui
