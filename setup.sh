@@ -1,187 +1,183 @@
 #!/bin/bash
 set -e
 
-# Spinner function
+# Updated Spinner function
 spinner() {
-    local spin_chars="/-\\|"
-    while :; do
+    local pid=$1
+    local delay=0.1
+    local spin_chars='|/-\'
+
+    while kill -0 "$pid" 2>/dev/null; do
         for (( i=0; i<${#spin_chars}; i++ )); do
-            echo -ne "\r${spin_chars:$i:1} " # Print the spinner character
-            sleep 0.1
+            printf "\r[%c] " "${spin_chars:i:1}"
+            sleep $delay
         done
     done
+    printf "\r    \r" # Clear the line when done
 }
 
-# Start spinner in the background and save its PID
-spinner &
-SPINNER_PID=$!
+# Main script in background
+(
+    REPO_URL="https://github.com/Grinspo0n/HyprGrin.git"
+    TEMP_DIR="/tmp/HyprGrin"
 
-# Function to stop the spinner
-stop_spinner() {
-    kill "$SPINNER_PID" >/dev/null 2>&1
-    wait "$SPINNER_PID" 2>/dev/null
-    echo -ne "\r" # Clear the spinner line
-}
+    echo "Updating..."
+    sudo pacman -Syu --noconfirm >/dev/null 2>&1
 
-# Set trap to stop spinner when the script exits
-trap stop_spinner EXIT
+    echo "Prepping..."
+    sudo pacman -S --needed base-devel git --noconfirm >/dev/null 2>&1
 
-REPO_URL="https://github.com/Grinspo0n/HyprGrin.git"
-TEMP_DIR="/tmp/HyprGrin"
+    echo "Pacman Time!"
+    OFFICIAL_APPS=(
+        ark
+        bluez-utils
+        brightnessctl
+        btop
+        chromium
+        cmake
+        cmatrix
+        cpio
+        discord
+        dosfstools
+        egl-wayland
+        exfatprogs
+        fastfetch
+        firefox
+        freerdp
+        fuzzel
+        gping
+        gst-plugin-pipewire
+        hyprcursor
+        hyprland
+        hyprlang
+        hyprlock
+        hyprpaper
+        hyprutils
+        hyprwayland-scanner
+        inetutils
+        intel-media-driver
+        iwd
+        kate
+        kcalc
+        kitty
+        konsole
+        libpulse
+        libva-intel-driver
+        libva-mesa-driver
+        man-db
+        meson
+        micro
+        nano
+        nemo
+        networkmanager
+        network-manager-applet
+        networkmanager-l2tp
+        networkmanager-openvpn
+        networkmanager-pptp
+        ntfs-3g
+        openssh
+        otf-font-awesome
+        partitionmanager
+        pavucontrol
+        picocom
+        pipewire
+        pipewire-alsa
+        pipewire-jack
+        pipewire-pulse
+        plasma-meta
+        plasma-workspace
+        polkit-kde-agent
+        power-profiles-daemon
+        qbittorrent
+        qt5-wayland
+        qt5ct
+        qt6-wayland
+        qt6ct
+        remmina
+        sddm
+        smartmontools
+        spotifyd
+        swaync
+        traceroute
+        unzip
+        vulkan-intel
+        vulkan-radeon
+        waybar
+        wget
+        wireless_tools
+        wireplumber
+        wpa_supplicant
+        xdg-desktop-portal-hyprland
+        xdg-utils
+        xf86-video-amdgpu
+        xf86-video-ati
+        xf86-video-nouveau
+        xf86-video-vmware
+        xorg-server
+        xorg-xinit
+        yazi
+        zip
+        zsh
+    )
 
-echo "Updating..."
-sudo pacman -Syu --noconfirm >/dev/null 2>&1
+    sudo pacman -S --noconfirm "${OFFICIAL_APPS[@]}" >/dev/null 2>&1
 
-echo "Prepping..."
-sudo pacman -S --needed base-devel git --noconfirm >/dev/null 2>&1
+    if [ -d "/tmp/yay" ]; then
+        echo "Removing existing yay folder..."
+        rm -rf /tmp/yay >/dev/null 2>&1
+    fi
 
-echo "Pacman Time!"
-OFFICIAL_APPS=(
-    ark
-    bluez-utils
-    brightnessctl
-    btop
-    chromium
-    cmake
-    cmatrix
-    cpio
-    discord
-    dosfstools
-    egl-wayland
-    exfatprogs
-    fastfetch
-    firefox
-    freerdp
-    fuzzel
-    gping
-    gst-plugin-pipewire
-    hyprcursor
-    hyprland
-    hyprlang
-    hyprlock
-    hyprpaper
-    hyprutils
-    hyprwayland-scanner
-    inetutils
-    intel-media-driver
-    iwd
-    kate
-    kcalc
-    kitty
-    konsole
-    libpulse
-    libva-intel-driver
-    libva-mesa-driver
-    man-db
-    meson
-    micro
-    nano
-    nemo
-    networkmanager
-    network-manager-applet
-    networkmanager-l2tp
-    networkmanager-openvpn
-    networkmanager-pptp
-    ntfs-3g
-    openssh
-    otf-font-awesome
-    partitionmanager
-    pavucontrol
-    picocom
-    pipewire
-    pipewire-alsa
-    pipewire-jack
-    pipewire-pulse
-    plasma-meta
-    plasma-workspace
-    polkit-kde-agent
-    power-profiles-daemon
-    qbittorrent
-    qt5-wayland
-    qt5ct
-    qt6-wayland
-    qt6ct
-    remmina
-    sddm
-    smartmontools
-    spotifyd
-    swaync
-    traceroute
-    unzip
-    vulkan-intel
-    vulkan-radeon
-    waybar
-    wget
-    wireless_tools
-    wireplumber
-    wpa_supplicant
-    xdg-desktop-portal-hyprland
-    xdg-utils
-    xf86-video-amdgpu
-    xf86-video-ati
-    xf86-video-nouveau
-    xf86-video-vmware
-    xorg-server
-    xorg-xinit
-    yazi
-    zip
-    zsh
-)
-
-sudo pacman -S --noconfirm "${OFFICIAL_APPS[@]}" >/dev/null 2>&1
-
-if [ -d "/tmp/yay" ]; then
-    echo "Removing existing yay folder..."
+    echo "Installing yay..."
+    git clone https://aur.archlinux.org/yay.git /tmp/yay >/dev/null 2>&1
+    cd /tmp/yay >/dev/null 2>&1
+    makepkg -si --noconfirm >/dev/null 2>&1
+    cd - >/dev/null 2>&1
     rm -rf /tmp/yay >/dev/null 2>&1
-fi
 
-echo "Installing yay..."
-git clone https://aur.archlinux.org/yay.git /tmp/yay >/dev/null 2>&1
-cd /tmp/yay >/dev/null 2>&1
-makepkg -si --noconfirm >/dev/null 2>&1
-cd - >/dev/null 2>&1
-rm -rf /tmp/yay >/dev/null 2>&1
+    echo "Cleaning..."
+    sudo pacman -Rns $(pacman -Qdtq) --noconfirm >/dev/null 2>&1
+    sudo pacman -Scc --noconfirm >/dev/null 2>&1
 
-echo "Cleaning..."
-sudo pacman -Rns $(pacman -Qdtq) --noconfirm >/dev/null 2>&1
-sudo pacman -Scc --noconfirm >/dev/null 2>&1
+    echo "AUR time"
+    AUR_APPS=(
+        balena-etcher
+        bluetui
+        cava
+        ferdium
+        google-earth-pro
+        hyprshot
+        spotify
+        spotify-tui
+        tenki
+        winbox
+    )
 
-echo "AUR time"
-AUR_APPS=(
-    balena-etcher
-    bluetui
-    cava
-    ferdium
-    google-earth-pro
-    hyprshot
-    spotify
-    spotify-tui
-    tenki
-    winbox
-)
+    yay -S --noconfirm "${AUR_APPS[@]}" >/dev/null 2>&1
 
-yay -S --noconfirm "${AUR_APPS[@]}" >/dev/null 2>&1
+    echo "Cloning configs"
+    git clone "$REPO_URL" "$TEMP_DIR" >/dev/null 2>&1
 
-echo "Cloning configs"
-git clone "$REPO_URL" "$TEMP_DIR" >/dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        echo "Error: Failed to clone repository."
+        exit 1
+    fi
 
-if [ $? -ne 0 ]; then
-    echo "Error: Failed to clone repository."
-    exit 1
-fi
+    echo "Moving configs"
+    cp -r "$TEMP_DIR/.config" ~/ >/dev/null 2>&1
+    echo "Copying .zshrc file..."
+    cp "$TEMP_DIR/.zshrc" ~/ >/dev/null 2>&1
 
-echo "Moving configs"
-cp -r "$TEMP_DIR/.config" ~/ >/dev/null 2>&1
-echo "Copying .zshrc file..."
-cp "$TEMP_DIR/.zshrc" ~/ >/dev/null 2>&1
+    echo "Cleaning configs"
+    rm -rf "$TEMP_DIR" >/dev/null 2>&1
 
-echo "Cleaning configs"
-rm -rf "$TEMP_DIR" >/dev/null 2>&1
+    # SDDM setup
+    sudo systemctl enable sddm >/dev/null 2>&1
+    hyprpm update -s >/dev/null 2>&1
+    chsh -s $(which zsh) >/dev/null 2>&1
+    curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh >/dev/null 2>&1
 
-#SDDM setup
-sudo systemctl enable sddm >/dev/null 2>&1
-hyprpm update -s >/dev/null 2>&1
-chsh -s $(which zsh) >/dev/null 2>&1
-curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh >/dev/null 2>&1
+    echo "Finally done ^_^"
+) &
 
-echo "Finally done ^_^"
+# Run spinner with the process ID of the background task
+spinner $!
