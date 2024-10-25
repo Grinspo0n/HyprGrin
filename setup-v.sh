@@ -1,21 +1,6 @@
 #!/bin/bash
 set -e
 
-# Updated Spinner function
-spinner() {
-    local pid=$1
-    local delay=0.1
-    local spin_chars='|/-\'
-
-    while kill -0 "$pid" 2>/dev/null; do
-        for (( i=0; i<${#spin_chars}; i++ )); do
-            printf "\r[%c] " "${spin_chars:i:1}"
-            sleep $delay
-        done
-    done
-    printf "\r    \r" # Clear the line when done
-}
-
 CYAN='\e[96m'
 NC='\e[0m'
 
@@ -200,6 +185,3 @@ NC='\e[0m'
 
     echo -e "${CYAN}Done ^_^${NC}"
 ) &
-
-# Run spinner with the process ID of the background task
-spinner $!
