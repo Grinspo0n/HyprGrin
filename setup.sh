@@ -1,14 +1,18 @@
+#######################
+### HYPERGRIN SETUP ###
+#######################
+
+
 #!/bin/bash
 set -e
-
 REPO_URL="https://github.com/Grinspo0n/HyprGrin.git"
 TEMP_DIR="/tmp/HyprGrin"
 
 echo "Updating..."
-sudo pacman -Syu --noconfirm >/dev/null 2>&1
+sudo pacman -Syu --noconfirm
 
 echo "Prepping..."
-sudo pacman -S --needed base-devel git --noconfirm >/dev/null 2>&1
+sudo pacman -S --needed base-devel git --noconfirm
 
 echo "Pacman Time!"
 OFFICIAL_APPS=(
@@ -103,23 +107,23 @@ OFFICIAL_APPS=(
     zsh
 )
 
-sudo pacman -S --noconfirm "${OFFICIAL_APPS[@]}" >/dev/null 2>&1
+sudo pacman -S --noconfirm "${OFFICIAL_APPS[@]}"
 
 if [ -d "/tmp/yay" ]; then
     echo "Removing existing yay folder..."
-    rm -rf /tmp/yay >/dev/null 2>&1
+    rm -rf /tmp/yay
 fi
 
 echo "Installing yay..."
-git clone https://aur.archlinux.org/yay.git /tmp/yay >/dev/null 2>&1
-cd /tmp/yay >/dev/null 2>&1
-makepkg -si --noconfirm >/dev/null 2>&1
-cd - >/dev/null 2>&1
-rm -rf /tmp/yay >/dev/null 2>&1
+git clone https://aur.archlinux.org/yay.git /tmp/yay
+cd /tmp/yay
+makepkg -si --noconfirm
+cd -
+rm -rf /tmp/yay
 
 echo "Cleaning..."
-sudo pacman -Rns $(pacman -Qdtq) --noconfirm >/dev/null 2>&1
-sudo pacman -Scc --noconfirm >/dev/null 2>&1
+sudo pacman -Rns $(pacman -Qdtq) --noconfirm
+sudo pacman -Scc --noconfirm
 
 echo "AUR time"
 AUR_APPS=(
@@ -135,28 +139,34 @@ AUR_APPS=(
     winbox
 )
 
-yay -S --noconfirm "${AUR_APPS[@]}" >/dev/null 2>&1
+yay -S --noconfirm "${AUR_APPS[@]}"
 
 echo "Cloning configs"
-git clone "$REPO_URL" "$TEMP_DIR" >/dev/null 2>&1
+git clone "$REPO_URL" "$TEMP_DIR"
 
+# Check if the clone was successful
 if [ $? -ne 0 ]; then
     echo "Error: Failed to clone repository."
     exit 1
 fi
 
 echo "Moving configs"
-cp -r "$TEMP_DIR/.config" ~/ >/dev/null 2>&1
+cp -r "$TEMP_DIR/.config" ~/
 echo "Copying .zshrc file..."
-cp "$TEMP_DIR/.zshrc" ~/ >/dev/null 2>&1
+cp "$TEMP_DIR/.zshrc" ~/
 
 echo "Cleaning configs"
-rm -rf "$TEMP_DIR" >/dev/null 2>&1
+rm -rf "$TEMP_DIR"
 
 #SDDM setup
-sudo systemctl enable sddm >/dev/null 2>&1
-hyprpm update -s >/dev/null 2>&1
-chsh -s $(which zsh) >/dev/null 2>&1
-curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh >/dev/null 2>&1
+sudo systemctl enable sddm
+hyprpm update -s
+chsh -s $(which zsh)
+curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 
 echo "Finally done ^_^"
+
+
+####################
+### BY GRINSPOON ###
+####################
