@@ -21,7 +21,7 @@ spinner() {
     REPO_URL="https://github.com/Grinspo0n/HyprGrin.git"
     TEMP_DIR="/tmp/HyprGrin"
 
-    echo "Updating..."
+    echo "Updating your system..."
     sudo pacman -Syu --noconfirm >/dev/null 2>&1
 
     echo "Prepping..."
