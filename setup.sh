@@ -154,7 +154,6 @@ spinner() {
         balena-etcher
         bluetui
         cava
-        ferdium
         google-earth-pro
         hyprshot
         spotify
