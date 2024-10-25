@@ -155,6 +155,8 @@ NC='\e[0m'
     echo -e "${CYAN}But will need another sudo or two at some point...${NC}"
     sleep 1
     echo -e "${CYAN}So maybe dont get another coffee for this one...${NC}"
+    sleep 1
+    echo -e "${CYAN}Unless you like to re-run commands...${NC}"
     AUR_APPS=(
         balena-etcher
         bluetui
