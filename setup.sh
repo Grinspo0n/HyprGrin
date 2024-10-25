@@ -136,7 +136,7 @@ spinner() {
     sleep 1
     echo "But if you miss a sudo prompt, just re-run the script"
     sleep 1
-    echo "It will go a lot faster to get to this point this time..."
+    echo "It will go a lot faster to get to this point next time..."
     sleep 2
     echo "I promise..."
     git clone https://aur.archlinux.org/yay.git /tmp/yay >/dev/null 2>&1
