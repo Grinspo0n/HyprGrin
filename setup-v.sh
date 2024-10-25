@@ -16,15 +16,25 @@ spinner() {
     printf "\r    \r" # Clear the line when done
 }
 
+CYAN='\e[96m'
+NC='\e[0m'
+
 # Main script in background
 (
     REPO_URL="https://github.com/Grinspo0n/HyprGrin.git"
     TEMP_DIR="/tmp/HyprGrin"
 
+    echo -e "${CYAN}Updating your system...${NC}"
     sudo pacman -Syu --noconfirm 
 
+    echo -e "${CYAN}Prepping...${NC}"
     sudo pacman -S --needed base-devel git --noconfirm 
-    
+    sleep 1
+    echo -e "${CYAN}Pacman Time!${NC}"
+    sleep 1
+    echo -e "${CYAN}This will take some time...${NC}"
+    sleep 1
+    echo -e "${CYAN}Maybe go grab a coffee or something...${NC}"
     OFFICIAL_APPS=(
         ark
         bluez-utils
@@ -120,15 +130,33 @@ spinner() {
     sudo pacman -S --noconfirm "${OFFICIAL_APPS[@]}" 
 
     if [ -d "/tmp/yay" ]; then
+        echo -e "${CYAN}Removing existing yay folder...${NC}"
         rm -rf /tmp/yay 
     fi
 
+    echo -e "${CYAN}Installing yay...${NC}"
+    echo -e "${CYAN}Going to need a sudo or two shortly...${NC}"
+    sleep 1
+    echo -e "${CYAN}But if you miss a sudo prompt, just re-run the script${NC}"
+    sleep 1
+    echo -e "${CYAN}It will go a lot faster to get to this point next time...${NC}"
+    sleep 2
+    echo -e "${CYAN}I promise...${NC}"
     git clone https://aur.archlinux.org/yay.git /tmp/yay 
     cd /tmp/yay 
     makepkg -si --noconfirm 
     cd - 
     rm -rf /tmp/yay 
 
+    echo -e "${CYAN}AUR time!${NC}"
+    sleep 1
+    echo -e "${CYAN}This one is also going to take a while...${NC}"
+    sleep 1
+    echo -e "${CYAN}But will need another sudo or two at some point...${NC}"
+    sleep 1
+    echo -e "${CYAN}So maybe dont get another coffee for this one...${NC}"
+    sleep 1
+    echo -e "${CYAN}Unless you like to re-run commands...${NC}"
     AUR_APPS=(
         balena-etcher
         bluetui
@@ -143,27 +171,35 @@ spinner() {
 
     yay -S --noconfirm "${AUR_APPS[@]}" 
 
+    echo -e "${CYAN}Cloning configs...${NC}"
     git clone "$REPO_URL" "$TEMP_DIR" 
 
     if [ $? -ne 0 ]; then
-        echo "Error: Failed to clone repository."
+        echo -e "${CYAN}Error: Failed to clone repository.${NC}"
         exit 1
     fi
 
+    echo -e "${CYAN}Moving configs...${NC}"
     cp -r "$TEMP_DIR/.config" ~/ 
+    echo -e "${CYAN}Copying .zshrc file...${NC}"
     cp "$TEMP_DIR/.zshrc" ~/ 
 
+    echo -e "${CYAN}Removing leftover files...${NC}"
     sudo pacman -Rns $(pacman -Qdtq) --noconfirm 
     sudo pacman -Scc --noconfirm 
     rm -rf "$TEMP_DIR" 
 
-
+    echo -e "${CYAN}And...${NC}"
     sudo systemctl enable sddm 
+    echo -e "${CYAN}We...${NC}"
     hyprpm update -s 
+    echo -e "${CYAN}Are...${NC}"
     chsh -s $(which zsh) 
+    echo -e "${CYAN}Finally...${NC}"
     curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh 
 
-    echo "Done ^_^"
+    echo -e "${CYAN}Done ^_^${NC}"
 ) &
 
+# Run spinner with the process ID of the background task
 spinner $!
