@@ -132,7 +132,7 @@ spinner() {
     fi
 
     echo "Installing yay..."
-    echo "Going to need a sudo shortly..."
+    echo "Going to need a sudo or two shortly..."
     sleep 1
     echo "But if you miss a sudo prompt, just re-run the script"
     sleep 1
@@ -149,7 +149,7 @@ spinner() {
     sleep 1
     echo "This one is also going to take a while..."
     sleep 1
-    echo "And will need a sudo or two at some point..."
+    echo "And will need another sudo or two at some point..."
     AUR_APPS=(
         balena-etcher
         bluetui
