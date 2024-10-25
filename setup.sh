@@ -152,7 +152,9 @@ NC='\e[0m'
     sleep 1
     echo -e "${CYAN}This one is also going to take a while...${NC}"
     sleep 1
-    echo -e "${CYAN}And will need another sudo or two at some point...${NC}"
+    echo -e "${CYAN}But will need another sudo or two at some point...${NC}"
+    sleep 1
+    echo -e "${CYAN}So maybe dont get another coffee for this one...${NC}"
     AUR_APPS=(
         balena-etcher
         bluetui
