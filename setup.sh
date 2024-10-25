@@ -3,7 +3,7 @@ set -e
 
 # Spinner function
 spinner() {
-    local spin_chars="⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
+    local spin_chars="/-\\|"
     while :; do
         for (( i=0; i<${#spin_chars}; i++ )); do
             echo -ne "\r${spin_chars:$i:1} " # Print the spinner character
