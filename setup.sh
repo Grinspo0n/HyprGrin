@@ -132,6 +132,13 @@ spinner() {
     fi
 
     echo "Installing yay..."
+    echo "Going to need a sudo shortly..."
+    sleep 1
+    echo "But if you miss a sudo prompt, just re-run the script"
+    sleep 1
+    echo "It will go a lot faster to get to this point this time..."
+    sleep 2
+    echo "I promise..."
     git clone https://aur.archlinux.org/yay.git /tmp/yay >/dev/null 2>&1
     cd /tmp/yay >/dev/null 2>&1
     makepkg -si --noconfirm >/dev/null 2>&1
@@ -141,6 +148,8 @@ spinner() {
     echo "AUR time!"
     sleep 1
     echo "This one is also going to take a while..."
+    sleep 1
+    echo "And will need a sudo or two at some point..."
     AUR_APPS=(
         balena-etcher
         bluetui
