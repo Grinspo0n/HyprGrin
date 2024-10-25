@@ -30,7 +30,7 @@ spinner() {
     echo "Pacman Time!"
     sleep 2
     echo "This will take some time..."
-    sleep 3
+    sleep 5
     echo "Maybe go grab a coffee or something..."
     OFFICIAL_APPS=(
         ark
