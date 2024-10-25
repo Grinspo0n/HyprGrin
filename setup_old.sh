@@ -8,25 +8,29 @@ set -e
 REPO_URL="https://github.com/Grinspo0n/HyprGrin.git"
 TEMP_DIR="/tmp/HyprGrin"
 
-echo "Updating..."
-sudo pacman -Syu --noconfirm
+echo "Updating your system..."
+sudo pacman -Syu --noconfirm >/dev/null 2>&1
 
-echo "Prepping..."
-sudo pacman -S --needed base-devel git --noconfirm
+echo "Prepping Pacman..."
+sudo pacman -S --needed base-devel git --noconfirm >/dev/null 2>&1
 
 echo "Pacman Time!"
+sleep 3
 OFFICIAL_APPS=(
     ark
     bluez-utils
     brightnessctl
     btop
     chromium
+    cmake
     cmatrix
+    cpio
     discord
     dosfstools
     egl-wayland
     exfatprogs
     fastfetch
+    firefox
     freerdp
     fuzzel
     gping
@@ -49,6 +53,7 @@ OFFICIAL_APPS=(
     libva-intel-driver
     libva-mesa-driver
     man-db
+    meson
     micro
     nano
     nemo
@@ -105,23 +110,31 @@ OFFICIAL_APPS=(
 
 sudo pacman -S --noconfirm "${OFFICIAL_APPS[@]}"
 
+if [ -d "/tmp/yay" ]; then
+    echo "Removing existing yay folder..."
+    rm -rf /tmp/yay >/dev/null 2>&1
+fi
+
 echo "Installing yay..."
+sleep 3
 git clone https://aur.archlinux.org/yay.git /tmp/yay
 cd /tmp/yay
 makepkg -si --noconfirm
 cd -
 rm -rf /tmp/yay
 
-echo "Cleaning..."
-sudo pacman -Rns $(pacman -Qdtq) --noconfirm
-sudo pacman -Scc --noconfirm
+echo "Removing leftover files..."
+sudo pacman -Rns $(pacman -Qdtq) --noconfirm >/dev/null 2>&1
+sudo pacman -Scc --noconfirm >/dev/null 2>&1
 
 echo "AUR time"
+sleep 3
 AUR_APPS=(
     balena-etcher
     bluetui
     cava
     ferdium
+    google-earth-pro
     hyprshot
     spotify
     spotify-tui
@@ -132,7 +145,7 @@ AUR_APPS=(
 yay -S --noconfirm "${AUR_APPS[@]}"
 
 echo "Cloning configs"
-git clone "$REPO_URL" "$TEMP_DIR"
+git clone "$REPO_URL" "$TEMP_DIR" >/dev/null 2>&1
 
 # Check if the clone was successful
 if [ $? -ne 0 ]; then
@@ -140,15 +153,25 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-echo "Moving configs"
-cp -r "$TEMP_DIR/.config" ~/
-echo "Copying .zshrc file..."
-cp "$TEMP_DIR/.zshrc" ~/
+echo "Moving dots..."
+cp -r "$TEMP_DIR/.config" ~/ >/dev/null 2>&1
+echo "Copying .zshrc file..." >/dev/null 2>&1
+cp "$TEMP_DIR/.zshrc" ~/ >/dev/null 2>&1
 
 echo "Cleaning configs"
-rm -rf "$TEMP_DIR"
+rm -rf "$TEMP_DIR" >/dev/null 2>&1
 
-echo "Finally done ^_^"
+#extra setup
+echo "And..."
+sudo systemctl enable sddm >/dev/null 2>&1
+echo "We..."
+hyprpm update -s >/dev/null 2>&1
+echo "Are..."
+chsh -s $(which zsh) >/dev/null 2>&1
+echo "Finally..."
+curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh >/dev/null 2>&1
+
+echo "Done ^_^"
 
 
 ####################
