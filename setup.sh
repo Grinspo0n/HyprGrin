@@ -28,6 +28,7 @@ spinner() {
     sudo pacman -S --needed base-devel git --noconfirm >/dev/null 2>&1
 
     echo "Pacman Time!"
+    sleep 1
     OFFICIAL_APPS=(
         ark
         bluez-utils
@@ -120,7 +121,7 @@ spinner() {
         zsh
     )
 
-    sudo pacman -S --noconfirm "${OFFICIAL_APPS[@]}" >/dev/null 2>&1
+    sudo pacman -S --noconfirm "${OFFICIAL_APPS[@]}" 
 
     if [ -d "/tmp/yay" ]; then
         echo "Removing existing yay folder..."
@@ -134,11 +135,8 @@ spinner() {
     cd - >/dev/null 2>&1
     rm -rf /tmp/yay >/dev/null 2>&1
 
-    echo "Cleaning..."
-    sudo pacman -Rns $(pacman -Qdtq) --noconfirm >/dev/null 2>&1
-    sudo pacman -Scc --noconfirm >/dev/null 2>&1
-
-    echo "AUR time"
+    echo "AUR time!"
+    sleep 1
     AUR_APPS=(
         balena-etcher
         bluetui
@@ -152,9 +150,9 @@ spinner() {
         winbox
     )
 
-    yay -S --noconfirm "${AUR_APPS[@]}" >/dev/null 2>&1
+    yay -S --noconfirm "${AUR_APPS[@]}"
 
-    echo "Cloning configs"
+    echo "Cloning configs..."
     git clone "$REPO_URL" "$TEMP_DIR" >/dev/null 2>&1
 
     if [ $? -ne 0 ]; then
@@ -162,21 +160,26 @@ spinner() {
         exit 1
     fi
 
-    echo "Moving configs"
+    echo "Moving configs..."
     cp -r "$TEMP_DIR/.config" ~/ >/dev/null 2>&1
     echo "Copying .zshrc file..."
     cp "$TEMP_DIR/.zshrc" ~/ >/dev/null 2>&1
 
-    echo "Cleaning configs"
+    echo "Removing leftover files..."
+    sudo pacman -Rns $(pacman -Qdtq) --noconfirm >/dev/null 2>&1
+    sudo pacman -Scc --noconfirm >/dev/null 2>&1
     rm -rf "$TEMP_DIR" >/dev/null 2>&1
 
-    # SDDM setup
+    echo "And..."
     sudo systemctl enable sddm >/dev/null 2>&1
+    echo "We..."
     hyprpm update -s >/dev/null 2>&1
+    echo "Are..."
     chsh -s $(which zsh) >/dev/null 2>&1
+    echo "Finally..."
     curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh >/dev/null 2>&1
 
-    echo "Finally done ^_^"
+    echo "Done ^_^"
 ) &
 
 # Run spinner with the process ID of the background task
