@@ -191,11 +191,11 @@ NC='\e[0m'
     echo -e "${CYAN}And...${NC}"
     sudo systemctl enable sddm >/dev/null 2>&1
     echo -e "${CYAN}We...${NC}"
-    hyprpm update -s >/dev/null 2>&1
-    echo -e "${CYAN}Are...${NC}"
     chsh -s $(which zsh) >/dev/null 2>&1
-    echo -e "${CYAN}Finally...${NC}"
+    echo -e "${CYAN}Are...${NC}"
     curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh >/dev/null 2>&1
+    echo -e "${CYAN}Finally...${NC}"
+    hyprpm update -s >/dev/null 2>&1
 
     echo -e "${CYAN}Done ^_^${NC}"
 ) &
