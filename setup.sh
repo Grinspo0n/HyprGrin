@@ -16,22 +16,25 @@ spinner() {
     printf "\r    \r" # Clear the line when done
 }
 
+CYAN='\e[36m'
+NC='\e[0m'
+
 # Main script in background
 (
     REPO_URL="https://github.com/Grinspo0n/HyprGrin.git"
     TEMP_DIR="/tmp/HyprGrin"
 
-    echo "Updating your system..."
+    echo -e "${CYAN}Updating your system...${NC}"
     sudo pacman -Syu --noconfirm >/dev/null 2>&1
 
-    echo "Prepping..."
+    echo -e "${CYAN}Prepping...${NC}"
     sudo pacman -S --needed base-devel git --noconfirm >/dev/null 2>&1
     sleep 1
-    echo "Pacman Time!"
+    echo -e "${CYAN}Pacman Time!${NC}"
     sleep 1
-    echo "This will take some time..."
+    echo -e "${CYAN}This will take some time...${NC}"
     sleep 1
-    echo "Maybe go grab a coffee or something..."
+    echo -e "${CYAN}Maybe go grab a coffee or something...${NC}"
     OFFICIAL_APPS=(
         ark
         bluez-utils
@@ -127,29 +130,29 @@ spinner() {
     sudo pacman -S --noconfirm "${OFFICIAL_APPS[@]}" >/dev/null 2>&1
 
     if [ -d "/tmp/yay" ]; then
-        echo "Removing existing yay folder..."
+        echo -e "${CYAN}Removing existing yay folder...${NC}"
         rm -rf /tmp/yay >/dev/null 2>&1
     fi
 
-    echo "Installing yay..."
-    echo "Going to need a sudo or two shortly..."
+    echo -e "${CYAN}Installing yay...${NC}"
+    echo -e "${CYAN}Going to need a sudo or two shortly...${NC}"
     sleep 1
-    echo "But if you miss a sudo prompt, just re-run the script"
+    echo -e "${CYAN}But if you miss a sudo prompt, just re-run the script${NC}"
     sleep 1
-    echo "It will go a lot faster to get to this point next time..."
+    echo -e "${CYAN}It will go a lot faster to get to this point next time...${NC}"
     sleep 2
-    echo "I promise..."
+    echo -e "${CYAN}I promise...${NC}"
     git clone https://aur.archlinux.org/yay.git /tmp/yay >/dev/null 2>&1
     cd /tmp/yay >/dev/null 2>&1
     makepkg -si --noconfirm >/dev/null 2>&1
     cd - >/dev/null 2>&1
     rm -rf /tmp/yay >/dev/null 2>&1
 
-    echo "AUR time!"
+    echo -e "${CYAN}AUR time!${NC}"
     sleep 1
-    echo "This one is also going to take a while..."
+    echo -e "${CYAN}This one is also going to take a while...${NC}"
     sleep 1
-    echo "And will need another sudo or two at some point..."
+    echo -e "${CYAN}And will need another sudo or two at some point...${NC}"
     AUR_APPS=(
         balena-etcher
         bluetui
@@ -164,34 +167,34 @@ spinner() {
 
     yay -S --noconfirm "${AUR_APPS[@]}" >/dev/null 2>&1
 
-    echo "Cloning configs..."
+    echo -e "${CYAN}Cloning configs...${NC}"
     git clone "$REPO_URL" "$TEMP_DIR" >/dev/null 2>&1
 
     if [ $? -ne 0 ]; then
-        echo "Error: Failed to clone repository."
+        echo -e "${CYAN}Error: Failed to clone repository.${NC}"
         exit 1
     fi
 
-    echo "Moving configs..."
+    echo -e "${CYAN}Moving configs...${NC}"
     cp -r "$TEMP_DIR/.config" ~/ >/dev/null 2>&1
-    echo "Copying .zshrc file..."
+    echo -e "${CYAN}Copying .zshrc file...${NC}"
     cp "$TEMP_DIR/.zshrc" ~/ >/dev/null 2>&1
 
-    echo "Removing leftover files..."
+    echo -e "${CYAN}Removing leftover files...${NC}"
     sudo pacman -Rns $(pacman -Qdtq) --noconfirm >/dev/null 2>&1
     sudo pacman -Scc --noconfirm >/dev/null 2>&1
     rm -rf "$TEMP_DIR" >/dev/null 2>&1
 
-    echo "And..."
+    echo -e "${CYAN}And...${NC}"
     sudo systemctl enable sddm >/dev/null 2>&1
-    echo "We..."
+    echo -e "${CYAN}We...${NC}"
     hyprpm update -s >/dev/null 2>&1
-    echo "Are..."
+    echo -e "${CYAN}Are...${NC}"
     chsh -s $(which zsh) >/dev/null 2>&1
-    echo "Finally..."
+    echo -e "${CYAN}Finally...${NC}"
     curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh >/dev/null 2>&1
 
-    echo "Done ^_^"
+    echo -e "${CYAN}Done ^_^${NC}"
 ) &
 
 # Run spinner with the process ID of the background task
