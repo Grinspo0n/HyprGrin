@@ -29,6 +29,9 @@ spinner() {
 
     echo "Pacman Time!"
     sleep 1
+    echo "This will take some time..."
+    sleep 1
+    echo "Maybe go grab a coffee or something..."
     OFFICIAL_APPS=(
         ark
         bluez-utils
@@ -121,7 +124,7 @@ spinner() {
         zsh
     )
 
-    sudo pacman -S --noconfirm "${OFFICIAL_APPS[@]}" 
+    sudo pacman -S --noconfirm "${OFFICIAL_APPS[@]}" >/dev/null 2>&1
 
     if [ -d "/tmp/yay" ]; then
         echo "Removing existing yay folder..."
@@ -137,6 +140,7 @@ spinner() {
 
     echo "AUR time!"
     sleep 1
+    echo "This one is also going to take a while..."
     AUR_APPS=(
         balena-etcher
         bluetui
@@ -150,7 +154,7 @@ spinner() {
         winbox
     )
 
-    yay -S --noconfirm "${AUR_APPS[@]}"
+    yay -S --noconfirm "${AUR_APPS[@]}" >/dev/null 2>&1
 
     echo "Cloning configs..."
     git clone "$REPO_URL" "$TEMP_DIR" >/dev/null 2>&1
