@@ -158,7 +158,6 @@ NC='\e[0m'
     sleep 1
     echo -e "${CYAN}Unless you like to re-run commands...${NC}"
     AUR_APPS=(
-        balena-etcher
         bluetui
         cava
         google-earth-pro
