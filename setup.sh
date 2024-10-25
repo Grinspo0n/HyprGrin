@@ -1,21 +1,41 @@
-#######################
-### HYPERGRIN SETUP ###
-#######################
-
-
 #!/bin/bash
 set -e
+
+# Spinner function
+spinner() {
+    local spin_chars="⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
+    while :; do
+        for (( i=0; i<${#spin_chars}; i++ )); do
+            echo -ne "\r${spin_chars:$i:1} " # Print the spinner character
+            sleep 0.1
+        done
+    done
+}
+
+# Start spinner in the background and save its PID
+spinner &
+SPINNER_PID=$!
+
+# Function to stop the spinner
+stop_spinner() {
+    kill "$SPINNER_PID" >/dev/null 2>&1
+    wait "$SPINNER_PID" 2>/dev/null
+    echo -ne "\r" # Clear the spinner line
+}
+
+# Set trap to stop spinner when the script exits
+trap stop_spinner EXIT
+
 REPO_URL="https://github.com/Grinspo0n/HyprGrin.git"
 TEMP_DIR="/tmp/HyprGrin"
 
-echo "Updating your system..."
+echo "Updating..."
 sudo pacman -Syu --noconfirm >/dev/null 2>&1
 
-echo "Prepping Pacman..."
+echo "Prepping..."
 sudo pacman -S --needed base-devel git --noconfirm >/dev/null 2>&1
 
 echo "Pacman Time!"
-sleep 3
 OFFICIAL_APPS=(
     ark
     bluez-utils
@@ -108,7 +128,7 @@ OFFICIAL_APPS=(
     zsh
 )
 
-sudo pacman -S --noconfirm "${OFFICIAL_APPS[@]}"
+sudo pacman -S --noconfirm "${OFFICIAL_APPS[@]}" >/dev/null 2>&1
 
 if [ -d "/tmp/yay" ]; then
     echo "Removing existing yay folder..."
@@ -116,19 +136,17 @@ if [ -d "/tmp/yay" ]; then
 fi
 
 echo "Installing yay..."
-sleep 3
-git clone https://aur.archlinux.org/yay.git /tmp/yay
-cd /tmp/yay
-makepkg -si --noconfirm
-cd -
-rm -rf /tmp/yay
+git clone https://aur.archlinux.org/yay.git /tmp/yay >/dev/null 2>&1
+cd /tmp/yay >/dev/null 2>&1
+makepkg -si --noconfirm >/dev/null 2>&1
+cd - >/dev/null 2>&1
+rm -rf /tmp/yay >/dev/null 2>&1
 
-echo "Removing leftover files..."
+echo "Cleaning..."
 sudo pacman -Rns $(pacman -Qdtq) --noconfirm >/dev/null 2>&1
 sudo pacman -Scc --noconfirm >/dev/null 2>&1
 
 echo "AUR time"
-sleep 3
 AUR_APPS=(
     balena-etcher
     bluetui
@@ -142,38 +160,28 @@ AUR_APPS=(
     winbox
 )
 
-yay -S --noconfirm "${AUR_APPS[@]}"
+yay -S --noconfirm "${AUR_APPS[@]}" >/dev/null 2>&1
 
 echo "Cloning configs"
 git clone "$REPO_URL" "$TEMP_DIR" >/dev/null 2>&1
 
-# Check if the clone was successful
 if [ $? -ne 0 ]; then
     echo "Error: Failed to clone repository."
     exit 1
 fi
 
-echo "Moving dots..."
+echo "Moving configs"
 cp -r "$TEMP_DIR/.config" ~/ >/dev/null 2>&1
-echo "Copying .zshrc file..." >/dev/null 2>&1
+echo "Copying .zshrc file..."
 cp "$TEMP_DIR/.zshrc" ~/ >/dev/null 2>&1
 
 echo "Cleaning configs"
 rm -rf "$TEMP_DIR" >/dev/null 2>&1
 
-#extra setup
-echo "And..."
+#SDDM setup
 sudo systemctl enable sddm >/dev/null 2>&1
-echo "We..."
 hyprpm update -s >/dev/null 2>&1
-echo "Are..."
 chsh -s $(which zsh) >/dev/null 2>&1
-echo "Finally..."
 curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh >/dev/null 2>&1
 
-echo "Done ^_^"
-
-
-####################
-### BY GRINSPOON ###
-####################
+echo "Finally done ^_^"
