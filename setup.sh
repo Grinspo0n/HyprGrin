@@ -28,9 +28,9 @@ spinner() {
     sudo pacman -S --needed base-devel git --noconfirm >/dev/null 2>&1
     sleep 1
     echo "Pacman Time!"
-    sleep 2
+    sleep 1
     echo "This will take some time..."
-    sleep 2
+    sleep 1
     echo "Maybe go grab a coffee or something..."
     OFFICIAL_APPS=(
         ark
