@@ -26,7 +26,7 @@ spinner() {
 
     echo "Prepping..."
     sudo pacman -S --needed base-devel git --noconfirm >/dev/null 2>&1
-
+    sleep 1
     echo "Pacman Time!"
     sleep 2
     echo "This will take some time..."
