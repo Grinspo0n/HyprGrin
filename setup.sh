@@ -16,7 +16,7 @@ spinner() {
     printf "\r    \r" # Clear the line when done
 }
 
-CYAN='\e[36m'
+CYAN='\e[96m'
 NC='\e[0m'
 
 # Main script in background
