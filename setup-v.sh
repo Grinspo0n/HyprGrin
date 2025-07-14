@@ -101,10 +101,6 @@ NC='\e[0m'
         wpa_supplicant
         xdg-desktop-portal-hyprland
         xdg-utils
-        xf86-video-amdgpu
-        xf86-video-ati
-        xf86-video-nouveau
-        xf86-video-vmware
         xorg-server
         xorg-xinit
         yazi
